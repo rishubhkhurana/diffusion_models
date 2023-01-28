@@ -1,3 +1,7 @@
+
+def exists(x):
+    return x is not None
+
 def inplace(f):
     def _f(b):
         f(b)

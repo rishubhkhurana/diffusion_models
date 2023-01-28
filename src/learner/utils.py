@@ -1,4 +1,9 @@
-def train(model, train_dl, opt, loss_func):
+import torch
+import numpy as np
+from tqdm.auto import tqdm
+
+
+def train(model, train_dl, opt, loss_func, device='cpu'):
     train_loss = 0
     train_counter = 0
     pb = tqdm(train_dl)
@@ -18,12 +23,12 @@ def train(model, train_dl, opt, loss_func):
     return train_loss
 
 
-def eval(model, valid_dl, loss_func):
+def eval(model, valid_dl, loss_func, device = 'cpu'):
     model.eval()
     with torch.no_grad():
         valid_loss = 0
         valid_counter = 0
-        pb = tqdm(test_dl)
+        pb = tqdm(valid_dl)
         for batch in pb:
             inputs = batch['image']
             inputs = inputs.to(device)
@@ -37,9 +42,10 @@ def eval(model, valid_dl, loss_func):
     return valid_loss
 
 
-def fit(model, opt, train_dl, valid_dl, loss_func):
+def fit(CFG, model, opt, train_dl, valid_dl, loss_func):
+    
     for epoch in tqdm(range(CFG.EPOCHS)):
         model.train()
-        train_loss = train(model, train_dl, opt, loss_func)
-        valid_loss = eval(model, test_dl, loss_func)    
+        train_loss = train(model, train_dl, opt, loss_func, device=CFG.device)
+        valid_loss = eval(model, valid_dl, loss_func, device=CFG.device)
         print(f"Epoch: {epoch}, Train Loss: {train_loss}, Valid Loss: {valid_loss}")

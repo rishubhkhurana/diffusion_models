@@ -11,8 +11,6 @@ class ConvLayer(nn.Module):
                          dilation = self.dilation, groups = self.groups, 
                          bias = self.bias)
     
-    
-
   def read(self, **kwargs):
     self.k = kwargs.get('k', 3)
     self.padding = kwargs.get('padding', self.k//2)
