@@ -1,10 +1,16 @@
+import fastcore.all as fc
+import matplotlib.pyplot as plt
+import numpy as np
+import math
+from itertools import zip_longest
+
 @fc.delegates(plt.Axes.imshow)
 def show_image(im, ax=None, figsize=None, title=None, noframe=True, **kwargs):
     "Show a PIL or PyTorch image on `ax`."
     if fc.hasattrs(im, ('cpu','permute','detach')):
         im = im.detach().cpu()
         if len(im.shape)==3 and im.shape[0]<5: im=im.permute(1,2,0)
-    elif not isinstance(im,np.ndarray): im=np.array(im)
+    elif not isinstance(im, np.ndarray): im=np.array(im)
     if im.shape[-1]==1: im=im[...,0]
     if ax is None: _,ax = plt.subplots(figsize=figsize)
     ax.imshow(im, **kwargs)
@@ -28,7 +34,7 @@ def subplots(
     if figsize is None: figsize=(ncols*imsize, nrows*imsize)
     fig,ax = plt.subplots(nrows, ncols, figsize=figsize, **kwargs)
     if suptitle is not None: fig.suptitle(suptitle)
-    if nrows*ncols==1: ax = array([ax])
+    if nrows*ncols==1: ax = np.array([ax])
     return fig,ax
 
 
