@@ -1,0 +1,6 @@
+defaults:
+  - params: default
+  - data: fashion_mnist
+  - model: autoencoder
+  - path: default
+
