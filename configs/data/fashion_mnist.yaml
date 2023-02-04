@@ -1,0 +1,2 @@
+__target__: datasets.load_dataset
+name: 'fashion_mnist'
